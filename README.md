@@ -96,7 +96,7 @@ node --test --test-isolation=none
 
 旧版和新版共用 `/dsh-memory-band` 前缀。DSH 热卸载旧插件时，已经注册的回环路由
 不一定会立刻释放；如果 `GET /dsh-memory-band/health` 还显示 `version: 0.1.0`，
-重启一次 DSH 即可让 0.2.1 接管。记忆注入和 `memory_band` 工具不依赖这些路由，
+重启一次 DSH 即可让 0.2.2 接管。记忆注入和 `memory_band` 工具不依赖这些路由，
 通常已经即时生效。
 
 ---
@@ -111,7 +111,7 @@ node --test --test-isolation=none
 【记忆带 · 最近 24 小时（本地记忆，自动带入）】
 
 ## 最近 24 小时（记得最清楚）
-- 11-02 18:50 DSH 记忆带实测暗号：蓝鲸七号。项目目录是 ...\dsh-memory-band。
+- 11-02 18:50 DSH 记忆带实测暗号：TEST-CODE-7F3A。项目目录是 ...\dsh-memory-band。
 
 （这是本地记忆带自动带入的旧事，不是用户这轮说的话；如果这里已经能回答，
 就直接回答，别再读文件或搜索；自然用，别照读，也别提“记忆带”。）
@@ -192,7 +192,7 @@ config.json        # 预算、开关、提示词
 | 插件 | `session-41408faa…` | 25,390 | 5 | 1 | 0 | 922 ms |
 | 插件 | `session-b33bca05…` | 25,558 | 37 | 1 | 0 | 1,072 ms |
 
-两次实验组都只用了 1 个 step，直接回答“蓝鲸七号”；两次基线都先列目录/搜索/读文件，
+两次实验组都只用了 1 个 step，直接回答“TEST-CODE-7F3A”；两次基线都先列目录/搜索/读文件，
 用了 3 个 step。清掉测试问句后再复验一次，保护带降到 201 字，仍是 1 step / 0 工具 /
 25,363 输入 token / 6 输出 token。完整记录、会话 ID 和复现脚本见
 [docs/benchmark.md](docs/benchmark.md)。

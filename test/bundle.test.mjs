@@ -124,11 +124,11 @@ test('agent/inbox/inserted 会捕获上一轮，而不是当前轮', () => {
     agent: { id: 'a' },
     message: { role: 'user', source: { kind: 'user' }, content: [{ type: 'text', text }] },
   });
-  send('第一句：项目暗号是蓝鲸七号');
+  send('第一句：项目暗号是TEST-CODE-7F3A');
   assert.equal(meta.store.stats().records, 0, '当前轮先不记');
   send('第二句：今天有点热');
   assert.equal(meta.store.stats().records, 1);
-  assert.match(meta.store.recent()[0].text, /蓝鲸七号/);
+  assert.match(meta.store.recent()[0].text, /TEST-CODE-7F3A/);
 
   // A question is a request, not a memory; it must not pollute the band.
   send('交接记录里的项目暗号是什么？');

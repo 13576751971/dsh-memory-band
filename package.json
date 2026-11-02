@@ -1,6 +1,6 @@
 {
   "name": "dsh-memory-band",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "本地三段式记忆带：24 小时保护带、关键词召回、场景回放，自动注入 DSH，检索不调用模型。",
   "type": "module",
   "main": "./lib/index.js",

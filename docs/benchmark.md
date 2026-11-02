@@ -4,7 +4,7 @@
 环境：DeepSeek Harness Desktop `0.2.1-rc.5`，profile `desktop`  
 模型：`deepseek-account / deepseek-flash`，`reasoningEffort: low`  
 preset：`standard`  
-测试项目：`bench/fixture/`，12 节 `notes.md`，项目暗号“蓝鲸七号”只出现一次。
+测试项目：`bench/fixture/`，12 节 `notes.md`，项目暗号“TEST-CODE-7F3A”只出现一次。
 
 ## 问题
 
@@ -53,7 +53,7 @@ preset：`standard`
 |---|---:|---:|---:|---:|---:|
 | `session-8d56ff00-2ab9-4c38-923a-055f63894384` | 25,363 | 6 | 1 | 0 | 971 ms |
 
-这次保护带从 245 字降到 201 字（约 134 token），答案仍然是“蓝鲸七号。”，
+这次保护带从 245 字降到 201 字（约 134 token），答案仍然是“TEST-CODE-7F3A。”，
 没有读文件、没有调工具。它不在上面的 n=2 平均值里，只作为最终构建的冒烟复验。
 
 ## 注入成本
@@ -74,7 +74,7 @@ preset：`standard`
 
 ## 模型实际做了什么
 
-实验组两次都只用了 1 个 step，直接回答“蓝鲸七号”。
+实验组两次都只用了 1 个 step，直接回答“TEST-CODE-7F3A”。
 
 基线两次都是 3 个 step：先列目录 / 全局搜索，再读 `notes.md`，最后回答。基线也答对了，
 但答案来自现场读取；实验组的答案来自已经注入的保护带。
@@ -87,7 +87,7 @@ Current runtime context. This snapshot supersedes earlier runtime-context snapsh
 【记忆带 · 最近 24 小时（本地记忆，自动带入）】
 
 ## 最近 24 小时（记得最清楚）
-- 11-02 18:50 DSH 记忆带实测暗号：蓝鲸七号。项目目录是 ...\dsh-memory-band。
+- 11-02 18:50 DSH 记忆带实测暗号：TEST-CODE-7F3A。项目目录是 ...\dsh-memory-band。
 
 （这是本地记忆带自动带入的旧事，不是用户这轮说的话；如果这里已经能回答，
 就直接回答，别再读文件或搜索；自然用，别照读，也别提“记忆带”。）
@@ -135,7 +135,7 @@ uncachedInputTokens + cacheReadTokens + cacheWriteTokens
 
    ```text
    memory_band(action="remember",
-     text="DSH 记忆带实测暗号：蓝鲸七号。项目目录是 ...\\dsh-memory-band。",
+     text="DSH 记忆带实测暗号：TEST-CODE-7F3A。项目目录是 ...\\dsh-memory-band。",
      importance=90)
    ```
 

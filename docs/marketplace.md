@@ -63,7 +63,7 @@ dsh-market 的列表来自 [awesome-dsh-plugin](https://github.com/awesome-dsh-p
 
 ## 4. 版本与兼容
 
-- 当前 `0.2.1`，要求 DSH `>= 0.2.0`（`engines.dsh`）。
+- 当前 `0.2.2`，要求 DSH `>= 0.2.0`（`engines.dsh`）。
 - 升级版本时同步改 `package.json.version` 和 `lib/index.js` 的 `version`。
 - 如果 DSH 未来改变 `systemPrompt.context` / `tools.register` 契约，先跑
   `test/bundle.test.mjs` 的假 ctx 契约测试，再在真机测一次。
@@ -76,5 +76,5 @@ dsh-market 的列表来自 [awesome-dsh-plugin](https://github.com/awesome-dsh-p
 2. 新会话的 runtime context 里出现 `【记忆带 · 最近 24 小时】`；
 3. 工具列表里有 `memory_band`；
 4. `GET http://127.0.0.1:<port>/dsh-memory-band/health` 返回 `ok: true` 和记录条数；
-5. 对助理说“记住：项目暗号是蓝鲸七号”，刷新新会话，问“项目暗号是什么”，
+5. 对助理说“记住：项目暗号是TEST-CODE-7F3A”，刷新新会话，问“项目暗号是什么”，
    它应直接回答，而不是先读文件。

@@ -42,8 +42,8 @@ test('写入后能召回，且相关旧事优先于无关的最近记录', () =>
 test('同一句话附近的重复写入只刷新 lastSeenAt，不涨条数', () => {
   const { dir, store } = tempStore();
   try {
-    store.add('项目暗号是蓝鲸七号', { importance: 80 });
-    store.add('项目暗号是蓝鲸七号', { importance: 80 });
+    store.add('项目暗号是TEST-CODE-7F3A', { importance: 80 });
+    store.add('项目暗号是TEST-CODE-7F3A', { importance: 80 });
     assert.equal(store.stats().records, 1);
   } finally {
     fs.rmSync(dir, { recursive: true, force: true });
@@ -51,7 +51,7 @@ test('同一句话附近的重复写入只刷新 lastSeenAt，不涨条数', () 
 });
 
 test('自动重要度：约定/称呼类更高，寒暄更低', () => {
-  assert.ok(autoImportance('记住，项目暗号是蓝鲸七号') > autoImportance('在吗'));
+  assert.ok(autoImportance('记住，项目暗号是TEST-CODE-7F3A') > autoImportance('在吗'));
   assert.ok(autoImportance('在吗') < 55);
   assert.ok(autoImportance('今天加班到九点才回来') >= 55);
 });
