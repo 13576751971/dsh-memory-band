@@ -186,7 +186,9 @@ config.json        # 预算、开关、提示词
 | 插件 | `session-b33bca05…` | 25,558 | 37 | 1 | 0 | 1,072 ms |
 
 两次实验组都只用了 1 个 step，直接回答“蓝鲸七号”；两次基线都先列目录/搜索/读文件，
-用了 3 个 step。完整记录、会话 ID 和复现脚本见 [docs/benchmark.md](docs/benchmark.md)。
+用了 3 个 step。清掉测试问句后再复验一次，保护带降到 201 字，仍是 1 step / 0 工具 /
+25,363 输入 token / 6 输出 token。完整记录、会话 ID 和复现脚本见
+[docs/benchmark.md](docs/benchmark.md)。
 
 ### 省下来的到底是什么
 

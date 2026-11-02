@@ -59,6 +59,19 @@
       "tools": [],
       "llmMs": 1072,
       "toolMs": 0
+    },
+    {
+      "sessionId": "session-8d56ff00-2ab9-4c38-923a-055f63894384",
+      "note": "post-cleanup verification; excluded from the n=2 average above",
+      "inputTokens": 25363,
+      "uncachedInputTokens": 787,
+      "cacheReadTokens": 24576,
+      "outputTokens": 6,
+      "steps": 1,
+      "toolCalls": 0,
+      "tools": [],
+      "llmMs": 971,
+      "toolMs": 0
     }
   ],
   "averages": {
