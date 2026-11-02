@@ -96,7 +96,7 @@ node --test --test-isolation=none
 
 旧版和新版共用 `/dsh-memory-band` 前缀。DSH 热卸载旧插件时，已经注册的回环路由
 不一定会立刻释放；如果 `GET /dsh-memory-band/health` 还显示 `version: 0.1.0`，
-重启一次 DSH 即可让 0.2.2 接管。记忆注入和 `memory_band` 工具不依赖这些路由，
+重启一次 DSH 即可让 0.2.3 接管。记忆注入和 `memory_band` 工具不依赖这些路由，
 通常已经即时生效。
 
 ---

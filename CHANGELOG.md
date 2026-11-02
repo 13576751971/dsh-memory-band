@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.3 — 2026-11-02
+
+- Never capture credentials: npm/GitHub/OpenAI/AWS/Slack token shapes and private-key blocks are rejected.
+- Never capture bridge/agent prompt wrappers (`【当前时间】`, `【当前角色】`, `［统一人设卡`, `Current runtime context.`).
+- Add regression tests for secret and prompt-wrapper filtering.
+
 ## 0.2.1 — 2026-11-02
 
 - Make the bundle installable and live-test it inside DSH (`systemPrompt.context` + `tools.register`).

@@ -135,6 +135,11 @@ test('agent/inbox/inserted 会捕获上一轮，而不是当前轮', () => {
   send('第三句：晚上吃点好的');
   assert.equal(meta.store.stats().records, 2);
   assert.doesNotMatch(meta.store.recent()[0].text, /交接记录/);
+
+  // Credentials must never enter the memory card.
+  send('npm_abcdefghijklmnopqrstuvwxyz0123456789');
+  send('第四句：明天再说');
+  assert.ok(meta.store.recent(10).every((record) => !record.text.includes('npm_')), 'token 不能落卡');
 });
 
 test('非本机请求被 403 拒绝', async () => {

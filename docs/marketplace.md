@@ -63,7 +63,7 @@ dsh-market 的列表来自 [awesome-dsh-plugin](https://github.com/awesome-dsh-p
 
 ## 4. 版本与兼容
 
-- 当前 `0.2.2`，要求 DSH `>= 0.2.0`（`engines.dsh`）。
+- 当前 `0.2.3`，要求 DSH `>= 0.2.0`（`engines.dsh`）。
 - 升级版本时同步改 `package.json.version` 和 `lib/index.js` 的 `version`。
 - 如果 DSH 未来改变 `systemPrompt.context` / `tools.register` 契约，先跑
   `test/bundle.test.mjs` 的假 ctx 契约测试，再在真机测一次。
