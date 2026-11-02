@@ -28,7 +28,8 @@
     "README.md",
     "CHANGELOG.md",
     "LICENSE",
-    "cordis.patch.yml"
+    "cordis.patch.yml",
+    "screenshots.json"
   ],
   "engines": {
     "node": ">=18",

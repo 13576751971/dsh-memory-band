@@ -13,5 +13,5 @@
   "npm": "dsh-memory-band",
   "install": "dsh plugin --profile <profile> add dsh-memory-band",
   "homepage": "https://github.com/13576751971/dsh-memory-band#readme",
-  "icon": "https://raw.githubusercontent.com/13576751971/dsh-memory-band/main/assets/icon.svg"
+  "icon": "https://raw.githubusercontent.com/13576751971/dsh-memory-band/main/assets/icon-180.png"
 }
