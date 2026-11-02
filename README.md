@@ -92,6 +92,13 @@ node --test --test-isolation=none
 > `--test-isolation=none` 只是为了避免 Windows 沙箱里测试 runner 拉子进程被拦；
 > 普通环境直接 `npm test` 即可。
 
+### 从旧版 `memory-band` 0.1.0 升级
+
+旧版和新版共用 `/dsh-memory-band` 前缀。DSH 热卸载旧插件时，已经注册的回环路由
+不一定会立刻释放；如果 `GET /dsh-memory-band/health` 还显示 `version: 0.1.0`，
+重启一次 DSH 即可让 0.2.1 接管。记忆注入和 `memory_band` 工具不依赖这些路由，
+通常已经即时生效。
+
 ---
 
 ## 装上之后，DSH 里会发生什么
