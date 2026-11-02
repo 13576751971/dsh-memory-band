@@ -92,9 +92,11 @@
   },
   "injection": {
     "bootChars": 245,
+    "bootCharsAfterCleaningQuestionRecords": 201,
     "recallChars": 0,
     "toolSchemaTokensDelta": 131,
-    "estimatedBootTokens": 160
+    "estimatedBootTokens": 160,
+    "estimatedBootTokensAfterCleaning": 134
   },
   "caveat": "Token totals include cacheReadTokens. Cache reads are usually cheaper, so token reduction is not the same as bill reduction. Model variance can also make a treatment run fall back to reading files."
 }
