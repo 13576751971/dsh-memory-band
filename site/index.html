@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>dsh-memory-band · 给 DSH 的本地记忆带</title>
+<meta name="description" content="给 DeepSeek Harness 的本地三段式记忆带：24 小时保护带、按话题召回、场景回放。检索不调模型，装进 DSH 自动生效。">
+<style>
+  :root {
+    color-scheme: dark;
+    --bg: #080b14;
+    --panel: #0f1524;
+    --panel-2: #121a2d;
+    --line: #223052;
+    --ink: #eef3ff;
+    --muted: #94a3c4;
+    --blue: #7c9cff;
+    --green: #4ee0b0;
+    --yellow: #ffd479;
+    --max: 1120px;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: radial-gradient(1200px 600px at 70% -10%, #1a2d63 0%, transparent 60%),
+                radial-gradient(900px 500px at 10% 20%, #0d3a36 0%, transparent 55%),
+                var(--bg);
+    color: var(--ink);
+    font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--blue); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .wrap { max-width: var(--max); margin: 0 auto; padding: 0 24px; }
+  nav { display: flex; align-items: center; justify-content: space-between; padding: 22px 0; }
+  .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; letter-spacing: -0.02em; }
+  .brand img { width: 30px; height: 30px; border-radius: 8px; }
+  .nav-links { display: flex; gap: 20px; font-size: 14px; color: var(--muted); }
+  .nav-links a { color: var(--muted); }
+  .hero { display: grid; grid-template-columns: 1.05fr .95fr; gap: 40px; align-items: center; padding: 46px 0 34px; }
+  .eyebrow { display: inline-flex; align-items: center; gap: 8px; padding: 7px 12px; border: 1px solid var(--line); border-radius: 999px; color: var(--green); background: rgba(78,224,176,.06); font-size: 13px; }
+  .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); box-shadow: 0 0 0 4px rgba(78,224,176,.14); }
+  h1 { margin: 18px 0 14px; font-size: clamp(38px, 5.2vw, 64px); line-height: 1.02; letter-spacing: -0.045em; }
+  h1 .grad { background: linear-gradient(90deg, var(--blue), var(--green) 60%, var(--yellow)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .lede { max-width: 620px; color: var(--muted); font-size: 18px; }
+  .cta { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 26px; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 18px; border-radius: 10px; font-weight: 650; font-size: 14px; border: 1px solid var(--line); color: var(--ink); background: var(--panel); }
+  .btn.primary { background: linear-gradient(135deg, var(--blue), #5e7df0); border-color: transparent; color: #07101f; }
+  .btn:hover { text-decoration: none; transform: translateY(-1px); }
+  .hero-card { position: relative; border: 1px solid var(--line); border-radius: 18px; background: linear-gradient(180deg, rgba(18,26,45,.9), rgba(10,14,25,.9)); padding: 18px; box-shadow: 0 30px 80px rgba(0,0,0,.35); }
+  .hero-card .bar { display: flex; gap: 6px; padding-bottom: 12px; }
+  .hero-card .bar i { width: 9px; height: 9px; border-radius: 50%; background: #2c3b61; }
+  .hero-card .bar i:first-child { background: #ff7b72; }
+  .hero-card .bar i:nth-child(2) { background: var(--yellow); }
+  .hero-card .bar i:nth-child(3) { background: var(--green); }
+  pre { margin: 0; white-space: pre-wrap; word-break: break-word; font: 12.5px/1.65 ui-monospace, SFMono-Regular, Consolas, monospace; }
+  .code { color: #c7d4ff; }
+  .code .k { color: var(--green); }
+  .code .s { color: var(--yellow); }
+  .code .c { color: #6b7ba3; }
+  .chip-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+  .chip { font-size: 12px; color: var(--muted); border: 1px solid var(--line); padding: 5px 9px; border-radius: 999px; background: rgba(255,255,255,.02); }
+  section { padding: 64px 0; border-top: 1px solid rgba(34,48,82,.65); }
+  .kicker { color: var(--green); font-size: 13px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 10px; }
+  h2 { margin: 0 0 14px; font-size: clamp(28px, 3.3vw, 40px); letter-spacing: -0.03em; line-height: 1.12; }
+  .sub { color: var(--muted); max-width: 780px; }
+  .grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 14px; margin-top: 28px; }
+  .card { border: 1px solid var(--line); border-radius: 16px; background: linear-gradient(180deg, rgba(17,24,40,.9), rgba(10,14,24,.9)); padding: 22px; }
+  .card h3 { margin: 0 0 8px; font-size: 18px; letter-spacing: -0.01em; }
+  .card p { margin: 0; color: var(--muted); font-size: 15px; }
+  .num { display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 30px; border-radius: 9px; background: rgba(124,156,255,.12); color: var(--blue); font-weight: 700; font-size: 13px; margin-bottom: 12px; }
+  .steps { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 12px; margin-top: 26px; }
+  .step { border: 1px solid var(--line); border-radius: 14px; padding: 18px; background: rgba(15,21,36,.7); }
+  .step .n { color: var(--blue); font: 700 12px ui-monospace, monospace; }
+  .step strong { display: block; margin: 8px 0 6px; }
+  .step span { color: var(--muted); font-size: 14px; }
+  .bench { display: grid; grid-template-columns: 1.2fr .8fr; gap: 24px; align-items: start; margin-top: 30px; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+  th, td { padding: 12px 12px; border-bottom: 1px solid var(--line); text-align: left; }
+  th { color: var(--muted); font-weight: 500; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; background: rgba(255,255,255,.02); }
+  td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+  tr:last-child td { border-bottom: 0; }
+  .good { color: var(--green); font-weight: 650; }
+  .bad { color: var(--yellow); }
+  .big { font-size: 34px; font-weight: 750; letter-spacing: -0.03em; margin: 2px 0 0; }
+  .stat { border: 1px solid var(--line); border-radius: 14px; padding: 18px; background: rgba(15,21,36,.7); }
+  .stat p { margin: 4px 0 0; color: var(--muted); font-size: 13px; }
+  .stat + .stat { margin-top: 12px; }
+  .note { border-left: 3px solid var(--yellow); padding: 12px 16px; background: rgba(255,212,121,.05); color: #d8cba8; font-size: 14px; border-radius: 0 10px 10px 0; margin-top: 22px; }
+  .code-block { border: 1px solid var(--line); border-radius: 14px; background: #0a0f1b; padding: 18px; overflow: auto; }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start; }
+  ul.clean { margin: 14px 0 0; padding-left: 18px; color: var(--muted); }
+  ul.clean li { margin: 7px 0; }
+  footer { padding: 34px 0 60px; color: var(--muted); font-size: 13px; border-top: 1px solid rgba(34,48,82,.65); }
+  .foot { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  @media (max-width: 900px) {
+    .hero, .bench, .two { grid-template-columns: 1fr; }
+    .hero-card { order: -1; }
+    .grid, .steps { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav>
+    <div class="brand"><img src="../assets/icon.svg" alt=""> dsh-memory-band</div>
+    <div class="nav-links">
+      <a href="#features">功能</a>
+      <a href="#bench">实测</a>
+      <a href="#install">安装</a>
+      <a href="#limits">边界</a>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div>
+      <span class="eyebrow"><span class="dot"></span> DSH 0.2.1 · 已实测 · MIT</span>
+      <h1>让 DSH <span class="grad">记得住</span>，<br>又不用每轮重读。</h1>
+      <p class="lede">把“昨天说过什么”压成几百字，自动放进每一轮上下文。检索全在本地做：不调 embedding、不建向量库、不多烧一次工具往返。</p>
+      <div class="cta">
+        <a class="btn primary" href="#install">装进 DSH</a>
+        <a class="btn" href="../README.md">读完整文档</a>
+      </div>
+      <div class="chip-row">
+        <span class="chip">24h 保护带</span>
+        <span class="chip">2-gram 召回</span>
+        <span class="chip">自动捕获</span>
+        <span class="chip">零运行时依赖</span>
+      </div>
+    </div>
+    <div class="hero-card">
+      <div class="bar"><i></i><i></i><i></i></div>
+      <pre class="code"><span class="c">// 新会话第一轮，自动出现</span>
+<span class="k">【记忆带 · 最近 24 小时】</span>
+
+- 11-02 18:50 项目暗号：蓝鲸七号
+- 11-02 18:52 主人说下周要去看海
+
+<span class="c">// 当前这句话命中旧事时，才补一条</span>
+<span class="k">【记忆带 · 相关旧事】</span>
+- 10-30 那本旧小说的第七章还没读完
+
+<span class="c">// 模型可以直接回答，不必先 glob / grep / read</span>
+<span class="s">→ “蓝鲸七号。”</span></pre>
+      <div class="chip-row">
+        <span class="chip">本地检索 3~9 ms</span>
+        <span class="chip">不调模型</span>
+      </div>
+    </div>
+  </header>
+
+  <section id="features">
+    <div class="kicker">Practical features</div>
+    <h2>四个真正会天天用到的功能</h2>
+    <p class="sub">不是“又一个记忆库”。它只做一件事：在模型需要之前，把最该记住的那几百字放到它面前。</p>
+    <div class="grid">
+      <div class="card">
+        <div class="num">01</div>
+        <h3>24 小时保护带</h3>
+        <p>今天和昨天的事单独一份预算，不跟三个月前的旧事抢位置。按 durable → 重要度 → 时间排序，按整条裁，不截半句。</p>
+      </div>
+      <div class="card">
+        <div class="num">02</div>
+        <h3>命中才召回</h3>
+        <p>2-gram + 话题性单字，本地检索更早的记忆。问“在吗”不加东西；问“那本书”才把相关旧事带进来。</p>
+      </div>
+      <div class="card">
+        <div class="num">03</div>
+        <h3>自动捕获，不重复</h3>
+        <p>用户的话本地落卡，但当前这句不会在同一轮重复注入；问句不落卡，避免“把问题当记忆”的自我污染。</p>
+      </div>
+      <div class="card">
+        <div class="num">04</div>
+        <h3>模型可显式调用</h3>
+        <p>一个 <code>memory_band</code> 工具：recall / remember / stats。schema 约 131 token，不用时零调用。</p>
+      </div>
+    </div>
+
+    <div class="steps">
+      <div class="step"><div class="n">STEP 01</div><strong>新会话</strong><span>保护带作为稳定前缀注入，按会话缓存。</span></div>
+      <div class="step"><div class="n">STEP 02</div><strong>用户开口</strong><span>本地 2-gram 检索，只补更早、真正相关的那几条。</span></div>
+      <div class="step"><div class="n">STEP 03</div><strong>模型回答</strong><span>能回答就直接答；不够再去读文件或调工具。</span></div>
+    </div>
+  </section>
+
+  <section id="bench">
+    <div class="kicker">Measured on real DSH</div>
+    <h2>实测：3 步变 1 步，输入 token 少 66.5%</h2>
+    <p class="sub">DSH 0.2.1-rc.5 / deepseek-flash / standard preset，两个全新会话、同一测试项目、同一问题，各跑 2 次取平均。</p>
+    <div class="bench">
+      <div>
+        <table>
+          <thead><tr><th>指标</th><th class="num">关插件</th><th class="num">开插件</th><th class="num">变化</th></tr></thead>
+          <tbody>
+            <tr><td>输入 token</td><td class="num">76,153</td><td class="num">25,474</td><td class="num good">−66.5%</td></tr>
+            <tr><td>输出 token</td><td class="num">219.5</td><td class="num">21</td><td class="num good">−90.4%</td></tr>
+            <tr><td>LLM step</td><td class="num">3</td><td class="num">1</td><td class="num good">−66.7%</td></tr>
+            <tr><td>工具调用</td><td class="num">2.5</td><td class="num">0</td><td class="num good">−100%</td></tr>
+            <tr><td>LLM 耗时</td><td class="num">4,276 ms</td><td class="num">997 ms</td><td class="num good">−76.7%</td></tr>
+          </tbody>
+        </table>
+        <div class="note">输入 token 含 cacheRead。缓存价通常更低，所以“token 少 66%”不等于“账单少 66%”；step、工具往返、LLM 耗时是更直接的证据。</div>
+      </div>
+      <div>
+        <div class="stat"><div class="kicker" style="margin:0">插件自己的成本</div><p class="big">245 字</p><p>保护带（约 160 token）</p></div>
+        <div class="stat"><p class="big">+131</p><p>memory_band 工具 schema（token）</p></div>
+        <div class="stat"><p class="big">0</p><p>embedding / 向量库 / 检索模型调用</p></div>
+      </div>
+    </div>
+    <p class="sub" style="margin-top:22px"><a href="../docs/benchmark.md">看完整实测记录、会话 ID 与失败案例 →</a></p>
+  </section>
+
+  <section id="install">
+    <div class="kicker">Install</div>
+    <h2>三种装法，选一个</h2>
+    <div class="two" style="margin-top:26px">
+      <div>
+        <h3 style="margin-top:0">插件市场 / 添加插件</h3>
+        <p class="sub">本包已经是标准 DSH bundle。在 Plugins → 添加插件 里粘贴：</p>
+        <div class="code-block"><pre class="code"><span class="c"># npm 发布后</span>
+dsh-memory-band
+
+<span class="c"># 或 GitHub 仓库</span>
+https://github.com/13576751971/dsh-memory-band
+
+<span class="c"># 或本机目录（开发）</span>
+C:\Users\asus\Desktop\GitHub\dsh-memory-band</pre></div>
+      </div>
+      <div>
+        <h3 style="margin-top:0">CLI</h3>
+        <p class="sub">装完刷新页面；HMR 会重新组合，通常不用重启。</p>
+        <div class="code-block"><pre class="code"><span class="c"># 把 profile 换成你的</span>
+dsh plugin --profile desktop add dsh-memory-band
+
+<span class="c"># 本地开发自测</span>
+node --test --test-isolation=none</pre></div>
+        <p class="sub" style="margin-top:18px">数据落在 <code>~/.dsh/dsh-memory-band/</code>：<code>memory-card.json</code> 是可备份、可迁移的纯 JSON。</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="limits">
+    <div class="kicker">Honest boundaries</div>
+    <h2>它不保证每次都能省</h2>
+    <div class="two">
+      <div>
+        <p class="sub">模型有随机性。测试里也出现过：记忆带里已经有答案，模型仍然先列目录、读文件，最后才回答。那一次实验组用了 3 个 step，和基线接近。</p>
+        <p class="sub">所以默认页脚写得很直白：“如果这里已经能回答，就直接回答，别再读文件或搜索。”这是把默认行为往“先看记忆”推，不是保证。</p>
+        <div class="note" style="border-left-color: var(--blue); background: rgba(124,156,255,.05); color:#c9d5ff">它省的是“重复上下文 + 工具往返 + 多余 step”，不是“所有情况都省”。记忆卡为空时，它不注入，也不增加成本。</div>
+      </div>
+      <div>
+        <h3 style="margin-top:0">适合</h3>
+        <ul class="clean">
+          <li>跨会话的偏好、约定、项目代号、最近发生的事</li>
+          <li>“我们之前说过”“昨天那个”这类对话记忆</li>
+          <li>不想引入向量库 / embedding API 的本地部署</li>
+        </ul>
+        <h3 style="margin-top:22px">不适合</h3>
+        <ul class="clean">
+          <li>“某个文件第 7 节写了什么”——这该读文件</li>
+          <li>纯指代问句（“那件事”），2-gram 猜不出来</li>
+          <li>需要语义相似、跨语言检索的场景</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="foot">
+      <div>dsh-memory-band · MIT · 本地优先 · 零运行时依赖</div>
+      <div><a href="../README.md">文档</a> · <a href="../docs/marketplace.md">上架</a> · <a href="https://github.com/13576751971/dsh-memory-band">GitHub</a></div>
+    </div>
+  </footer>
+</div>
+</body>
+</html>

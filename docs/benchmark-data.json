@@ -1,0 +1,100 @@
+{
+  "environment": {
+    "dsh": "0.2.1-rc.5",
+    "profile": "desktop",
+    "model": "deepseek-account/deepseek-flash",
+    "reasoningEffort": "low",
+    "preset": "standard",
+    "date": "2026-11-02",
+    "fixture": "bench/fixture/notes.md"
+  },
+  "question": "我们之前约定过的项目暗号是什么？只回答暗号本身，不要解释。",
+  "baseline": [
+    {
+      "sessionId": "session-0017feef-9d81-4c1e-99e9-fd77e2484671",
+      "inputTokens": 76251,
+      "uncachedInputTokens": 1627,
+      "cacheReadTokens": 74624,
+      "outputTokens": 264,
+      "steps": 3,
+      "toolCalls": 3,
+      "tools": ["pwsh", "glob", "read"],
+      "llmMs": 4646,
+      "toolMs": 762
+    },
+    {
+      "sessionId": "session-6417d238-5c3e-4cb2-8a1f-88ae103b4370",
+      "inputTokens": 76055,
+      "uncachedInputTokens": 1047,
+      "cacheReadTokens": 75008,
+      "outputTokens": 175,
+      "steps": 3,
+      "toolCalls": 2,
+      "tools": ["glob", "read"],
+      "llmMs": 3905,
+      "toolMs": 591
+    }
+  ],
+  "treatment": [
+    {
+      "sessionId": "session-41408faa-6b5c-488e-be35-69730ea691bd",
+      "inputTokens": 25390,
+      "uncachedInputTokens": 942,
+      "cacheReadTokens": 24448,
+      "outputTokens": 5,
+      "steps": 1,
+      "toolCalls": 0,
+      "tools": [],
+      "llmMs": 922,
+      "toolMs": 0
+    },
+    {
+      "sessionId": "session-b33bca05-33be-4f25-9559-6cfb12d05f4d",
+      "inputTokens": 25558,
+      "uncachedInputTokens": 1110,
+      "cacheReadTokens": 24448,
+      "outputTokens": 37,
+      "steps": 1,
+      "toolCalls": 0,
+      "tools": [],
+      "llmMs": 1072,
+      "toolMs": 0
+    }
+  ],
+  "averages": {
+    "baseline": {
+      "inputTokens": 76153,
+      "outputTokens": 219.5,
+      "totalTokens": 76372.5,
+      "steps": 3,
+      "toolCalls": 2.5,
+      "llmMs": 4276,
+      "toolMs": 677
+    },
+    "treatment": {
+      "inputTokens": 25474,
+      "outputTokens": 21,
+      "totalTokens": 25495,
+      "steps": 1,
+      "toolCalls": 0,
+      "llmMs": 997,
+      "toolMs": 0
+    }
+  },
+  "savingsPercent": {
+    "inputTokens": 66.5,
+    "outputTokens": 90.4,
+    "totalTokens": 66.6,
+    "steps": 66.7,
+    "toolCalls": 100,
+    "llmMs": 76.7,
+    "toolMs": 100
+  },
+  "injection": {
+    "bootChars": 245,
+    "recallChars": 0,
+    "toolSchemaTokensDelta": 131,
+    "estimatedBootTokens": 160
+  },
+  "caveat": "Token totals include cacheReadTokens. Cache reads are usually cheaper, so token reduction is not the same as bill reduction. Model variance can also make a treatment run fall back to reading files."
+}

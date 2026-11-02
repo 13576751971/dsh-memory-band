@@ -1,0 +1,63 @@
+{
+  "name": "dsh-memory-band",
+  "version": "0.2.1",
+  "description": "本地三段式记忆带：24 小时保护带、关键词召回、场景回放，自动注入 DSH，检索不调用模型。",
+  "type": "module",
+  "main": "./lib/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./dsh": "./lib/index.js",
+    "./bundle": "./lib/index.js",
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": [
+        "./cordis.patch.yml"
+      ]
+    }
+  },
+  "files": [
+    "src",
+    "lib",
+    "examples",
+    "bench",
+    "docs",
+    "assets",
+    "site",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE",
+    "cordis.patch.yml"
+  ],
+  "engines": {
+    "node": ">=18",
+    "dsh": ">=0.2.0"
+  },
+  "scripts": {
+    "test": "node --test",
+    "demo": "node examples/demo.mjs",
+    "bench": "node bench/cost.mjs",
+    "check": "node --check lib/index.js && node --check lib/store.js && node --test"
+  },
+  "keywords": [
+    "deepseek-harness",
+    "dsh",
+    "dsh-plugin",
+    "memory",
+    "retrieval",
+    "prompt",
+    "llm",
+    "companion",
+    "local-first"
+  ],
+  "homepage": "https://github.com/13576751971/dsh-memory-band#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/13576751971/dsh-memory-band.git"
+  },
+  "bugs": {
+    "url": "https://github.com/13576751971/dsh-memory-band/issues"
+  },
+  "license": "MIT"
+}

@@ -1,0 +1,17 @@
+{
+  "name": "dsh-memory-band",
+  "owner": "13576751971",
+  "url": "https://github.com/13576751971/dsh-memory-band",
+  "category": [
+    "memory",
+    "productivity"
+  ],
+  "description": {
+    "en": "Local three-band memory for DeepSeek Harness: a 24h protection band, query recall and scene replay, auto-injected into every session without embedding or model calls.",
+    "zh": "给 DeepSeek Harness 的本地三段式记忆带：24 小时保护带、按话题召回、场景回放，自动注入每个会话；不调模型、不建向量库。"
+  },
+  "npm": "dsh-memory-band",
+  "install": "dsh plugin --profile <profile> add dsh-memory-band",
+  "homepage": "https://github.com/13576751971/dsh-memory-band#readme",
+  "icon": "https://raw.githubusercontent.com/13576751971/dsh-memory-band/main/assets/icon.svg"
+}

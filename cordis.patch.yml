@@ -1,0 +1,10 @@
+# ============================================================================
+# dsh-memory-band —— DSH bundle patch
+# ============================================================================
+# One bundle, one plugin. The main row id must equal the package name, or
+# DSH's plugin list/detail page cannot resolve it.
+# `name` is anchored next to this patch file, so the package can move.
+- insert:
+    - id: dsh-memory-band
+      name: ./lib/index.js
+      config: {}
